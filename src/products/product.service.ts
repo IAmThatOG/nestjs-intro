@@ -82,11 +82,9 @@ export class ProductService {
     }
 
     async deleteProduct(productId: string): Promise<ProductResponse> {
-        try {
-            let result = await this.productModel.findByIdAndDelete(productId).exec();
-            console.log('result ==> ', result);
-        } catch (error) {
-            throw new InternalServerErrorException();
+        let result = await this.productModel.findByIdAndDelete(productId).exec();
+        if (!result) {
+            throw new NotFoundException();
         }
         // const product = this.findProductById(productId);
         // this._products.splice(+product.id - 1, 1);
